@@ -4,6 +4,9 @@ import hello.helloSpring.domain.Member;
 
 import java.util.*;
 
+
+
+
 public class MemoryMemberRepository implements MemberRepository{
 
    private static Map<Long, Member> store = new HashMap<>();
@@ -30,5 +33,9 @@ public class MemoryMemberRepository implements MemberRepository{
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    public void clearStore() {
+        store.clear();
     }
 }
