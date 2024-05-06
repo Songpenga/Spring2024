@@ -5,6 +5,7 @@ import hello.helloSpring.domain.Member;
 import java.util.List;
 import java.util.Optional;
 
+//@Repository
 public interface MemberRepository {
 
     Member save(Member member);

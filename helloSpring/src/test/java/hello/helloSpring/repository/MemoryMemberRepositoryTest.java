@@ -4,10 +4,12 @@ import hello.helloSpring.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 // case test후에는 clear를 해줘야 한다.
+@Repository
 class MemoryMemberRepositoryTest {
     MemoryMemberRepository Repository = new MemoryMemberRepository();
 
