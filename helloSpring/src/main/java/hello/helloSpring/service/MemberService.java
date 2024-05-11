@@ -12,12 +12,9 @@ import java.util.Optional;
 //@Service
 public class MemberService {
 
-    //private final MemberRepository memberRepository = new MemoryMemberRepository();
-
     private final MemberRepository memberRepository;
 
-    //@Autowired
-    public MemberService(MemberRepository memberRepository) { //defendent exation
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
@@ -31,20 +28,12 @@ public class MemberService {
         memberRepository.save(member);
         return  member.getId();
 
-        //1.
-        //Optional<Member> result = memberRepository.findByName(member.getName());
-        /* result.ifPresent(m -> {
-                throw new IllegalStateException("이미 존재하는 회원입니다.");
-        });
-        */
-
-
     }
 
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원 입니다.");
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
     }
 

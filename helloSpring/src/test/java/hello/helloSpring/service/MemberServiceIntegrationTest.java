@@ -20,16 +20,16 @@ class MemberServiceIntegrationTest {
     @Test
     void 회원가입() {// 중복 회원 가입 로직 매우 중요함
 
-        //given
+        //Given
         Member member = new Member();
-        member.setName("spring");
+        member.setName("hello");
 
-        //when
+        //When
         Long saveId = memberService.join(member);
 
-        //then
-        Member findMember = memberService.findOne(saveId).get();
-        assertEquals(member.getName(),findMember.getName());
+        //Then
+        Member findMember = memberRepository.findById(saveId).get();
+        assertEquals(member.getName(), findMember.getName());
                 //  검증
     }
 
@@ -43,7 +43,7 @@ class MemberServiceIntegrationTest {
         member1.setName("hello");
 
         Member member2 = new Member();
-        member1.setName("hello");
+        member2.setName("hello");
 
         //when
         memberService.join(member1);
@@ -51,13 +51,6 @@ class MemberServiceIntegrationTest {
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
 
         assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
-/*        try {
-            memberService.join(member2);
-            fail("");
-        }catch(IllegalStateException e){
-            assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원 입니다 test");
 
-        }
-        //then*/
     }
 }
