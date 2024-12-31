@@ -1,5 +1,7 @@
 package hello.core;
 
+import hello.core.MemberInfo.Grade;
+
 //생성자 단축키 alt + insert
 public class Member {
 

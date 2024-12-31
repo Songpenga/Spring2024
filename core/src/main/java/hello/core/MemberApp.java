@@ -1,5 +1,9 @@
 package hello.core;
 
+import hello.core.MemberInfo.Grade;
+import hello.core.MemberInfo.MemberService;
+import hello.core.MemberInfo.MemberServiceImpl;
+
 public class MemberApp {
     public static void main(String[] args) {
         MemberService memberService = new MemberServiceImpl();
