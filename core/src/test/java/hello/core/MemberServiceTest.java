@@ -2,7 +2,6 @@ package hello.core;
 
 import hello.core.MemberInfo.Grade;
 import hello.core.MemberInfo.MemberService;
-import hello.core.MemberInfo.MemberServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,8 @@ public class MemberServiceTest {
 
     @BeforeEach
     public void beforEach(){
-        Appconfig appconfig = new Appconfig();
-        memberService = appconfig.memberService();
+        AppconfigBeforeSpring appconfigBeforeSpring = new AppconfigBeforeSpring();
+        memberService = appconfigBeforeSpring.memberService();
     }
 
     @Test
