@@ -1,5 +1,10 @@
 package hello.core;
 
+/*
+* @Bean memberService -> new MemoryMemberRepository
+* @Beam orderService  -> new MemoryMemberRepository
+*
+*/
 import hello.core.MemberInfo.MemberService;
 import hello.core.MemberInfo.MemberServiceImpl;
 import hello.core.MemberInfo.MemoryMemberRepository;
