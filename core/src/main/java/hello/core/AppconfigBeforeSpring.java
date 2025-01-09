@@ -31,11 +31,9 @@ public class AppconfigBeforeSpring {
         return new MemoryMemberRepository();
     }
 
-    public OrderService orderService(){
-        return new OrderServiceImpl(
-                MemberRepository(),
-                discountPolicy());
-    }
+/*    public OrderService orderService(){
+        return new OrderServiceImpl(memberRepository, discountPolicy);
+    }*/
 
     //할인정책
     public DiscountPolicy discountPolicy(){
