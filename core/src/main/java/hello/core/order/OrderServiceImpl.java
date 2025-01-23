@@ -13,14 +13,24 @@ import org.springframework.stereotype.Component;
 public class OrderServiceImpl implements OrderService{
 
     /* 인터페이스 의존으로 수정*/
-    private final MemberRepository memberRepository; // 필드 주입
-    private final DiscountPolicy discountPolicy;
+    private MemberRepository memberRepository; // 필드 주입
+    private DiscountPolicy discountPolicy;
 
     @Autowired
+    public void setMemberRepository(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+    @Autowired
+    public void setDiscountPolicy(DiscountPolicy discountPolicy){
+        this.discountPolicy = discountPolicy;
+    }
+
+
+/*    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = rateDiscountPolicy;
-    }
+    }*/
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

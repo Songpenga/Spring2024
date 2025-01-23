@@ -48,9 +48,10 @@ public class Appconfig {
     @Bean
     public OrderService orderService(){
         System.out.println("callO Appconfig.orderService");
-        return new OrderServiceImpl(
+/*        return new OrderServiceImpl(
                 MemberRepository(),
-                discountPolicy());
+                discountPolicy());*/
+        return null;
     }
 
     @Bean

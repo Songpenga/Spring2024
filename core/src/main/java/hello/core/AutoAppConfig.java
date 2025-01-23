@@ -24,7 +24,8 @@ public class AutoAppConfig {
 
     @Bean
     OrderService orderService(){
-        return new OrderServiceImpl(memberRepository, discountPolicy);
+        //return new OrderServiceImpl(memberRepository, discountPolicy);
+        return null;
     }
 /*    OrderService orderService(MemberRepository memberRepository, DiscountPolicy discountPolicy){
         return new OrderServiceImpl(memberRepository, discountPolicy);
