@@ -16,21 +16,12 @@ public class OrderServiceImpl implements OrderService{
     private MemberRepository memberRepository; // 필드 주입
     private DiscountPolicy discountPolicy;
 
-    @Autowired
-    public void setMemberRepository(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
-    @Autowired
-    public void setDiscountPolicy(DiscountPolicy discountPolicy){
-        this.discountPolicy = discountPolicy;
-    }
 
-
-/*    @Autowired
+    @Autowired //생성자 주입
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = rateDiscountPolicy;
-    }*/
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
