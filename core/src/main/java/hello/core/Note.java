@@ -5,6 +5,14 @@ import hello.core.discount.RateDiscountPolicy;
 
 public class Note {
     /*
+    * 25.02.04
+    * @Autowired는 타입(type)으로 조회한다.
+    * 타임으로 조회하면 선택된 빈이 2개 이상일 떄 문제가 발생한다.
+    * Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException
+    * //No qualifying bean of type 'hello.core.discount.DiscountPolicy'
+    * //available: expected single matching bean but found 2: fixDiscountPolicy,rateDiscountPolicy
+    */
+    /*
     * 25.01.23
     * 생성자 주입 방식을 서택하는 이유는 여러가지가 있지만,
     * 프레임 워크에 의존하지 않고 순수한 자바 언어의 특징을 잘 살리는 방법이기도 하다.
