@@ -5,6 +5,21 @@ import hello.core.discount.RateDiscountPolicy;
 
 public class Note {
     /*
+    * 25.02.05
+    * @Autowired 매칭 정리
+    * 1. 타입 매칭
+    * 2. 타입 매칭의 결과가 2개 이상이 때 필드명, 파라미터 명으로 빈 이름 매칭
+    *
+    * @Quilifier 사용
+    * @Quilifier는 추가 구분자를 붙여주는 방법이다. 주입시 추가적인 방법을 제공하는 것이지
+    * 빈 이름을 변경하는 것은 아니다.
+    * => 빈 등록시 @Quilifier를 붙여준다.
+    * Quilifier는 Quilifier를 찾는 용도로만 사용하는게 명확하고 좋다.
+    *
+    * @Primary 사용
+    * @Primary 는 우선순위를 정하는 방법이다. @Autowired 시에 여러 빈 매칭되면 @Primary 가 우선권을 가진다.
+    */
+    /*
     * 25.02.04
     * @Autowired는 타입(type)으로 조회한다.
     * 타임으로 조회하면 선택된 빈이 2개 이상일 떄 문제가 발생한다.
