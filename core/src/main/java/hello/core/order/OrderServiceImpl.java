@@ -20,10 +20,10 @@ public class OrderServiceImpl implements OrderService{
 
     //@RequiredArgsConstructor => 생성자를 만들어줌
     @Autowired //생성자 주입
-    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy ratediscountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         System.out.println("memberRepository " + memberRepository);
         this.memberRepository = memberRepository;
-        this.discountPolicy = ratediscountPolicy;
+        this.discountPolicy = discountPolicy;
     }
 
     @Override
