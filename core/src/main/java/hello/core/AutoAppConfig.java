@@ -6,6 +6,7 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 
 @Configuration
@@ -20,6 +21,7 @@ public class AutoAppConfig {
     MemberRepository memberRepository;
 
     @Autowired
+    @Qualifier("mainDiscountPolicy")
     DiscountPolicy discountPolicy;
 
     @Bean
