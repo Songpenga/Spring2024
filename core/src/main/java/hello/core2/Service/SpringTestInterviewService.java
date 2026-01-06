@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,7 +20,9 @@ public class SpringTestInterviewService {
         List<InterviewDto> resultList = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect("https://rongscodinghistory.tistory.com/category/%EA%B0%9C%EB%B0%9C/%EC%9B%B9%EA%B0%9C%EB%B0%9C%20%EB%A9%B4%EC%A0%91%EC%A7%88%EB%AC%B8").get();
+            //1.URL List
+            List<String> urllist = Arrays.asList()
+
             //System.out.println(doc);
             Elements elements = doc.select(".contents_style");//게시글 리스트 선택
 
