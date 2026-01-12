@@ -1,6 +1,8 @@
 package hello.core2.Service;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
+import hello.core2.DTO.CrawlContent;
+import hello.core2.DTO.CrawlDto;
 import hello.core2.DTO.InterviewDto;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +23,11 @@ public class SpringTestInterviewService {
 
         try {
             //1.URL List
-            List<String> urllist = Arrays.asList()
+            //List<String> urllist = Arrays.asList()
+            List<CrawlTarget> targets = List.of(
+                    new CrawlContent("https://chung-develop.tistory.com/145#google_vignette",
+                                    ".contents_style","춍춍블로그_tistory")
+            )
 
             //System.out.println(doc);
             Elements elements = doc.select(".contents_style");//게시글 리스트 선택
