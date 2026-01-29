@@ -34,6 +34,7 @@ public class StockController {
 
         try {
             StockApiResponseDto apiResponseDto = stockService.StockDataGetApi(date, null);
+            stockService.saveStockData(date);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -63,4 +64,5 @@ public class StockController {
         List<StockPrice> stocks = stockService.getStockPriceByDate(date);
         return ResponseEntity.ok(stocks);
     }
+
 }
