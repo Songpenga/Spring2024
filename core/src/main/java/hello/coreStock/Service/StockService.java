@@ -1,5 +1,6 @@
 package hello.coreStock.Service;
 
+import hello.coreStock.StockApiItemDto;
 import hello.coreStock.StockApiResponseDto;
 import hello.coreStock.StockPrice;
 import hello.coreStock.stockInterface.StockPriceRepository;
@@ -10,9 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +36,12 @@ public class StockService {
     @Value("${stock.api.url}")
     private String apiUrl;
 
+    private String beginMrktTotAmt = "5900000000000";
+
+    //String encodedLikeItmsNm = URLEncoder.encode(likeItmsNm, StandardCharsets.UTF_8);
+    String encodedBeginMrktTotAmt = URLEncoder.encode(beginMrktTotAmt, StandardCharsets.UTF_8);
+
+
     //공공데이터 api 호출하여 data 가져옴
     public StockApiResponseDto StockDataGetApi(String basDt, String srtnCd){
 
@@ -43,22 +54,24 @@ public class StockService {
 //                .build() //인코딩 방지
 //                .toUriString(); // 401 로 잠시 주석
 
-        URI uri = UriComponentsBuilder
+        URI uri = UriComponentsBuilder //encode 담당
                 .fromHttpUrl(apiUrl)
                 .queryParam("ServiceKey", apiKey_in)
                 .queryParam("basDt", basDt)
+                //.queryParam("likeItmsNm", encodedLikeItmsNm)
+                .queryParam("beginMrktTotAmt", encodedBeginMrktTotAmt)
                 .queryParam("numOfRows", 10)
                 .queryParam("pageNo", 1)
                 .queryParam("resultType", "json")
                 .build(true)   // ⭐ 이미 인코딩된 값임을 명시
                 .toUri();
 
-        log.error("ServiceKey 값 = [{}]", apiKey_de);
 
         System.out.println("테스트 URL: " + uri);
 
         try{
             StockApiResponseDto response = restTemplate.getForObject(uri, StockApiResponseDto.class);
+
             log.info("API 응답 : {}", response);
             return response;
         }catch (Exception e){
@@ -77,5 +90,62 @@ public class StockService {
     //특정날짜 조회
     public List<StockPrice> getStockPriceByDate(LocalDate basDt){
         return  stockPriceRepository.findByBasDt(basDt);
+    }
+
+    public void saveStockData(String basDt){
+
+        StockApiResponseDto responseDto = StockDataGetApi(basDt, null);
+
+        // Null 체크 추가
+        if (responseDto == null ||
+                responseDto.getResponse() == null ||
+                responseDto.getResponse().getBody() == null ||
+                responseDto.getResponse().getBody().getItems() == null ||
+                responseDto.getResponse().getBody().getItems().getItem() == null) {
+            log.warn("API 응답 데이터가 없습니다. basDt: {}", basDt);
+            return;
+        }
+
+        List<StockApiItemDto> saveItems = responseDto.getResponse()
+                                                .getBody()
+                                                .getItems()
+                                                .getItem();
+
+        // 각 아이템을 StockPrice 엔티티로 변환하여 저장
+        int savedCount = 0;
+        for (StockApiItemDto itemDto : saveItems) {
+            // 날짜 변환: "20260115" -> LocalDate
+            LocalDate basDtLocalDate = LocalDate.parse(
+                    itemDto.getBasDt(),
+                    DateTimeFormatter.ofPattern("yyyyMMdd")
+            );
+
+            // 중복 체크
+            Optional<StockPrice> existing = stockPriceRepository.findByBasDtAndSrtnCd(
+                    basDtLocalDate,
+                    itemDto.getSrtnCd()
+            );
+
+            if (existing.isEmpty()) {
+                // StockPrice 엔티티 생성
+                StockPrice stockPrice = StockPrice.builder()
+                        .basDt(basDtLocalDate)
+                        .srtnCd(itemDto.getSrtnCd())
+                        .itmsNm(itemDto.getItmsNm())
+                        .clpr(Integer.parseInt(itemDto.getClpr()))
+                        .mkp(Integer.parseInt(itemDto.getMkp()))
+                        .hipr(Integer.parseInt(itemDto.getHipr()))
+                        .lopr(Integer.parseInt(itemDto.getLopr()))
+                        .trqu(Long.parseLong(itemDto.getTrqu()))
+                        .lstgStCnt(Long.parseLong(itemDto.getLstgStCnt()))
+                        .build();
+
+                // 저장
+                stockPriceRepository.save(stockPrice);
+                savedCount++;
+            }
+        }
+
+        log.info("주식 데이터 저장 완료 - {}건", savedCount);
     }
 }
