@@ -20,6 +20,7 @@ import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /*
     @Bean이 붙은 메서드마다 이미 스프링 빈이 존재하면 존재하는 빈을 반환하고, 스프링 빈이 없으면 생성해서
@@ -53,12 +54,10 @@ public class Appconfig {
                 discountPolicy());
     }
 
-    @Bean
+    @Primary
     public MemoryMemberRepository MemberRepository() {
         return new MemoryMemberRepository();
     }
-
-
 
     //할인정책
     @Bean

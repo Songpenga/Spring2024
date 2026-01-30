@@ -24,16 +24,17 @@ public class AutoAppConfig {
     @MainDiscountPolicy
     DiscountPolicy discountPolicy;
 
-    @Bean
+/*    @Bean
     OrderService orderService(){
         //return new OrderServiceImpl(memberRepository, discountPolicy);
         return null;
-    }
+    }*/
 /*    OrderService orderService(MemberRepository memberRepository, DiscountPolicy discountPolicy){
         return new OrderServiceImpl(memberRepository, discountPolicy);
     }*/
 
     @Bean(name = "memoryMemberRepository")
+    @Primary
     MemoryMemberRepository memberRepository(){
         return new MemoryMemberRepository();
     } // 이 경우 수동 빈 등록이 우선권을 가져간다.
