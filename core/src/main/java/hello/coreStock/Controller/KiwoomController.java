@@ -1,6 +1,7 @@
 package hello.coreStock.Controller;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,13 +14,13 @@ public class KiwoomController {
     @Value("${kiwoom.host}")
     private static String mockhost;
 
-    @Value("${kiwoon.appkwy}")
-    private static String mockkey;
+    @Value("${kiwoom.appkey}")
+    String mockkey;
 
-    @Value("${kiwoon.mykey}")
-    private static String mockmykey;
+    @Value("${kiwoom.mykey}")
+    String mockmykey;
 
-    public static void fn_au10001(String jsonData) {
+    public void fn_au10001(String jsonData) {
 
         try {
             // 1. 요청할 API URL
@@ -54,9 +55,14 @@ public class KiwoomController {
 
             // 5. 응답 본문 출력
             System.out.println("Body:");
-            try (Scanner scanner = new Scanner(connection.getInputStream(), "utf-8")) {
+            InputStream errorStatus = (connection.getResponseCode() >= 400)
+                                    ? connection.getErrorStream()
+                                    : connection.getInputStream();
+
+
+            try (Scanner scanner = new Scanner(errorStatus, "utf-8")) {
                 String responseBody = scanner.useDelimiter("\\A").next();
-                System.out.println("    " + responseBody);
+                System.out.println("에러 여부 및 상세 내용" + responseBody);
             }
 
         } catch (Exception e) {
@@ -65,10 +71,19 @@ public class KiwoomController {
     }
 
     public static void main(String[] args) {
+
+        System.out.println("mockkey: [" + mockkey + "]");
+        System.out.println("mockmykey: [" + mockmykey + "]");
+        System.out.println("mockkey length: " + (mockkey != null ? mockkey.length() : "null"));
+        System.out.println("mockmykey length: " + (mockmykey != null ? mockmykey.length() : "null"));
+
+
         // 1. 요청 데이터 JSON 문자열 생성
-        String jsonData = "{\"grant_type\" : \"client_credentials\"," +
-                "\"appkey\" : mockkey," +
-                "\"secretkey\" : mockmykey}"; // JSON 형식의 문자열 데이터
+        String jsonData = String.format(
+                "{\"grant_type\":\"client_credentials\",\"appkey\":\"%s\",\"secretkey\":\"%s\"}",
+                mockkey,
+                mockmykey
+        );
 
         // 2. API 실행
         fn_au10001(jsonData);
