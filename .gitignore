@@ -1,0 +1,9 @@
+# API Keys
+application.properties
+application.yml
+application-kiwoom.properties
+application-kiwoom.yml
+/src/main/resources/application.properties
+/src/main/resources/application.yml
+/src/main/resources/application-kiwoom.properties
+/src/main/resources/application-kiwoom.yml
